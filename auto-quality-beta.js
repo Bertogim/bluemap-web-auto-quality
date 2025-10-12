@@ -1,17 +1,23 @@
 /*
-Current version: v0.1.3
+Current version: v0.1.4
 
 Check for new versions at: https://github.com/Bertogim/bluemap-web-auto-quality/releases
 Download the auto-quality.js script and add it to your bluemap server
+*/
+
+/*
+(From console)
+bluemapAutoQualityDebug = true;  // enable debug logging
+bluemapAutoQualityDebug = false; // disable debug logging
 */
 
 
 (function () {
     const REFRESH_INTERVAL_MS = 250;
     const HIRES_MIN = 60;
-    const HIRES_MAX = 500;
+    const HIRES_MAX = Number(localStorage.getItem("OverrideHires")) || bluemap.settings.hiresSliderMax;
     const LOWRES_MIN = 500;
-    const LOWRES_MAX = 10000;
+    const LOWRES_MAX = Number(localStorage.getItem("OverrideLowres")) || bluemap.settings.lowresSliderMax;
     const QUALITY_MIN = 0.4;
     const QUALITY_TARGET = 1.0;
     const QUALITY_STEP = 0.1;
@@ -26,9 +32,15 @@ Download the auto-quality.js script and add it to your bluemap server
 
     let FPS_DECIDED_VALUE = 50 //By default 50, will change instantly
 
-    let debug = false;
-
-
+    window.bluemapAutoQualityDebug = debug;
+    Object.defineProperty(window, "bluemapAutoQualityDebug", {
+        get() { return debug; },
+        set(value) {
+            debug = Boolean(value);
+            console.log(`[AutoQuality] Debug mode ${debug ? "enabled" : "disabled"}`);
+        }
+    });
+    
     let autoQualityEnabled = localStorage.getItem("autoQualityEnabled") !== "false"; // default true
     let autoHiresEnabled = localStorage.getItem("autoHiresEnabled") !== "false";     // default true
     let autoLowresEnabled = localStorage.getItem("autoLowresEnabled") !== "false";   // default true
@@ -46,19 +58,19 @@ Download the auto-quality.js script and add it to your bluemap server
         const autoQualityBtn = document.createElement("div");
         autoQualityBtn.id = "auto-quality-btn";
         autoQualityBtn.className = "simple-button active";
-        autoQualityBtn.innerHTML = `< div class="label" > Auto Quality</div > `;
+        autoQualityBtn.innerHTML = `Auto Quality `;
         autoQualityBtn.style.cursor = "pointer";
 
         const autoHiresBtn = document.createElement("div");
         autoHiresBtn.id = "auto-hires-btn";
         autoHiresBtn.className = "simple-button active";
-        autoHiresBtn.innerHTML = `< div class="label" > Auto HiRes</div > `;
+        autoHiresBtn.innerHTML = `Auto HiRes `;
         autoHiresBtn.style.cursor = "pointer";
 
         const autoLowresBtn = document.createElement("div");
         autoLowresBtn.id = "auto-lowres-btn";
         autoLowresBtn.className = "simple-button active";
-        autoLowresBtn.innerHTML = `< div class="label" > Auto LowRes</div > `;
+        autoLowresBtn.innerHTML = `Auto LowRes `;
         autoLowresBtn.style.cursor = "pointer";
 
         autoQualityBtn.classList.toggle("active", autoQualityEnabled);
