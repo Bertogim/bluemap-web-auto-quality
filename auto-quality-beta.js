@@ -32,6 +32,8 @@ bluemapAutoQualityDebug = false; // disable debug logging
 
     let FPS_DECIDED_VALUE = 50 //By default 50, will change instantly
 
+    let debug = false
+
     window.bluemapAutoQualityDebug = debug;
     Object.defineProperty(window, "bluemapAutoQualityDebug", {
         get() { return debug; },
