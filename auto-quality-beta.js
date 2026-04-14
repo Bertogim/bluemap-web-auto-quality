@@ -1,5 +1,5 @@
 /*
-Current version: v0.1.4
+Current version: v0.1.5
 
 Check for new versions at: https://github.com/Bertogim/bluemap-web-auto-quality/releases
 Download the auto-quality.js script and add it to your bluemap server
@@ -11,12 +11,11 @@ bluemapAutoQualityDebug = true;  // enable debug logging
 bluemapAutoQualityDebug = false; // disable debug logging
 */
 
-
 (function () {
     const REFRESH_INTERVAL_MS = 250;
-    const HIRES_MIN = 60;
+    const HIRES_MIN = bluemap.settings.hiresSliderMin || 60;
     const HIRES_MAX = Number(localStorage.getItem("OverrideHires")) || bluemap.settings.hiresSliderMax;
-    const LOWRES_MIN = 500;
+    const LOWRES_MIN = bluemap.settings.lowresSliderMin || 500;
     const LOWRES_MAX = Number(localStorage.getItem("OverrideLowres")) || bluemap.settings.lowresSliderMax;
     const QUALITY_MIN = 0.4;
     const QUALITY_TARGET = 1.0;

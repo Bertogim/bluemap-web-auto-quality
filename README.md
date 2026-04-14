@@ -1,7 +1,7 @@
 # Bluemap web auto quality script
 Auto quality can be disabled in the BlueMap graphical settings
 
-(Only supports 60fps for now)
+(Only supports till 60fps for now)
 
 - Auto render distance quality
 - Also changes resolution only as a last resort if render distance is turned all the way down and the fps are too low
